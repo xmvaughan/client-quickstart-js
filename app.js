@@ -5,7 +5,7 @@ const path = require('path');
 
 const app = express();
 
-app.post('/token', (req, res) => {
+app.get('/token', (req, res) => {
     // put your Twilio API credentials here
     const accountSid = require('../private/twilioSecrets/accountSid');
     const authToken = require('../private/twilioSecrets/authToken');
