@@ -1,3 +1,5 @@
-node_modules/
+Bnode_modules/
 package-lock.json
 *~
+nohup.out
+*.out
