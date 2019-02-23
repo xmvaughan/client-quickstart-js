@@ -8,7 +8,7 @@
   var device;
 
   log('Requesting Capability Token...');
-  $.getJSON('http://127.0.0.1:1337/token')
+  $.getJSON('/token')
     .then(function (data) {
       log('Got a token.');
       console.log('Token: ' + data.token);

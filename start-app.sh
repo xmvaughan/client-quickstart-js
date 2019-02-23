@@ -1,1 +1,1 @@
-sudo nohup nodejs app.js
+sudo nohup nodejs app.js &
