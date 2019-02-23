@@ -1,4 +1,3 @@
-const https = require('https');
 const http = require('http');
 const express = require('express');
 const ClientCapability = require('twilio').jwt.ClientCapability;
@@ -19,9 +18,10 @@ app.post('/token', (req, res) => {
 	authToken: authToken,
     });
     
-    capability.addScope(
-	new ClientCapability.OutgoingClientScope({ applicationSid: appSid })
-    );
+    capability.addScope(new ClientCapability.OutgoingClientScope({ applicationSid: appSid }));
+    
+    capability.addScope(new ClientCapability.IncomingClientScope( 'broswerPhone' ));
+    
     
     const token = capability.toJwt();
 
@@ -30,5 +30,5 @@ app.post('/token', (req, res) => {
 });
 
 
-https.createServer(app).listen(1337, '127.0.0.1');
-console.log('Twilio Client app server running at https://127.0.0.1:1337/token/');
+http.createServer(app).listen(1337, '127.0.0.1');
+console.log('Twilio Client app server running at http://127.0.0.1:1337/token');
