@@ -1,0 +1,43 @@
+const https = require('https');
+const http = require('http');
+const express = require('express');
+const ClientCapability = require('twilio').jwt.ClientCapability;
+const path = require('path');
+
+const app = express();
+
+app.post('/token', (req, res) => {
+    // put your Twilio API credentials here
+    const accountSid = require('../private/twilioSecrets/accountSid');
+    const authToken = require('../private/twilioSecrets/authToken');
+
+    // put your Twilio Application Sid here
+    const appSid = require('../private/twilioSecrets/appSid');
+
+    const capability = new ClientCapability({
+	accountSid: accountSid,
+	authToken: authToken,
+    });
+    
+    capability.addScope(
+	new ClientCapability.OutgoingClientScope({ applicationSid: appSid })
+    );
+    
+    const token = capability.toJwt();
+
+    res.set('Content-Type', 'application/jwt');
+    res.send(token);
+});
+
+
+https.createServer(app).listen(1337, '127.0.0.1');
+console.log('Twilio Client app server running at https://127.0.0.1:1337/token/');
+
+const static_page = express();
+
+static_page.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname + '/public/index.html'));
+});
+
+http.createServer(static_page).listen(8080, '127.0.0.1');
+console.log('Twilio Client app server running at http://127.0.0.1:8080/');
